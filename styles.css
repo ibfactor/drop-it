@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Cal+Sans&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+	font-family: "Montserrat";
+}
+
+h1 {
+	font-family: "Cal Sans";
+}
+
+body {
+	background-color: #1a1a1a;
+	color: rgba(255, 255, 255, 0.8);
+}
+main {
+	text-align: center;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	text-align: center;
+}
+
+main p {
+	color: rgba(255, 255, 255, 0.5);
+}
+
+input[type="file"] {
+	position: fixed;
+	top: -1000%;
+	left: -1000%;
+}
+
+label[for="main_file"] {
+	display: inline-block;
+	width: 100%;
+	height: 200px;
+	border: 1px dashed rgba(255, 255, 255, 0.5);
+	line-height: 230px;
+	border-radius: 5px;
+}
+label[for="main_file"] > span {
+	display: inline-block;
+	line-height: 1.4;
+}
+label[for="main_file"] > span > span {
+	display: block;
+}
