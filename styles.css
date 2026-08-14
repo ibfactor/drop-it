@@ -28,9 +28,12 @@ main p {
 }
 
 input[type="file"] {
-	position: fixed;
-	top: -1000%;
-	left: -1000%;
+	position: absolute;
+	background-color: white;
+	width: 100%;
+	height: calc(100% - 125px);
+	top: 0px;
+	opacity: 0;
 }
 
 label[for="main_file"] {

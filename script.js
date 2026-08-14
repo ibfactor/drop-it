@@ -66,7 +66,7 @@ function jsonConvert() {
 	document.querySelector("#jsonConversion").classList.remove("visible");
 }
 
-function processValues() {
+async function processValues() {
 	const v1 = document.querySelector("textarea").value;
 	const v2 = document.getElementById("main_file").value;
 	if (!v2) {
@@ -86,6 +86,31 @@ function processValues() {
 		}
 		catch (err) {
 			console.log("Not JSON");
+		}
+	}
+	else {
+		if (v2.split(".").pop().toLowerCase() == "json") {
+			try {
+
+				const v2c = await document.getElementById("main_file").files[0].text();
+
+				const json = JSON.parse(v2c);
+
+				document.getElementById("input_t").innerText = v2c;
+
+				document.getElementById("jsonQR").addEventListener("click", jsonQR);
+				document.getElementById("jsonMinify").addEventListener("click", jsonMinify);
+				document.getElementById("jsonPrettify").addEventListener("click", jsonPrettify);
+				document.getElementById("jsonVisualise").addEventListener("click", jsonVisualise);
+				document.getElementById("jsonConvert2").addEventListener("click", jsonConvert);
+				document.getElementById("jsonConvert").addEventListener("click", () => {
+					document.querySelector("#jsonConversion").classList.add("visible");
+				});
+
+			}
+			catch (err) {
+				console.log("Not JSON");
+			}
 		}
 	}
 }
@@ -114,4 +139,3 @@ document.querySelectorAll(".close").forEach((el) => {
 		el.parentElement.classList.remove("visible");
 	});
 });
-
