@@ -11,6 +11,7 @@ h1 {
 body {
 	background-color: #1a1a1a;
 	color: rgba(255, 255, 255, 0.8);
+	user-select: none;
 }
 main {
 	text-align: center;
@@ -37,7 +38,7 @@ label[for="main_file"] {
 	height: 200px;
 	border: 1px dashed rgba(255, 255, 255, 0.5);
 	line-height: 230px;
-	border-radius: 5px;
+	border-radius: 5px 5px 0px 0px;
 	cursor: pointer;
 }
 label[for="main_file"] > span {
@@ -51,4 +52,28 @@ label[for="main_file"] > span > span {
 label[for="main_file"]:hover {
 	border: 1px dashed rgba(29, 104, 224);
 	color: rgba(29, 104, 224);
+}
+
+
+textarea {
+	background-color: transparent;
+	display: inline-block;
+	padding: 10px;
+	padding-top: 15px;
+	padding-bottom: 0px;
+	width: calc(100% - 20px);
+	border: 1px dashed rgba(255, 255, 255, 0.5);
+	border-radius: 0px 0px 5px 5px;
+	cursor: pointer;
+	color: rgba(255, 255, 255, 0.8);
+	margin-top: -1px;
+	text-align: center;
+}
+textarea:focus {
+	outline: 0;
+	border: 1px dashed rgba(29, 104, 224);
+}
+textarea::placeholder {
+  color: rgba(255, 255, 255, 0.8);
+  opacity: 1;
 }
