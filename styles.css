@@ -38,6 +38,7 @@ label[for="main_file"] {
 	border: 1px dashed rgba(255, 255, 255, 0.5);
 	line-height: 230px;
 	border-radius: 5px;
+	cursor: pointer;
 }
 label[for="main_file"] > span {
 	display: inline-block;
@@ -45,4 +46,9 @@ label[for="main_file"] > span {
 }
 label[for="main_file"] > span > span {
 	display: block;
+}
+
+label[for="main_file"]:hover {
+	border: 1px dashed rgba(29, 104, 224);
+	color: rgba(29, 104, 224);
 }
