@@ -189,3 +189,57 @@ button:hover {
 	width: calc(33% - 40.8px);
 }
 
+#qr {
+	position: fixed;
+	background-color: #1a1a1a;
+	border-radius: 10px;
+	border: 1px solid rgba(255, 255, 255, 0.5);
+	padding: 10px;
+	padding-top: 0px;
+	top: -100%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	opacity: 0;
+	transition: 0.25s all;
+}
+#qr.visible {
+	top: 50%;
+	opacity: 1;
+	z-index: 11;
+}
+#qr.visible ~ #overlay {
+	top: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	backdrop-filter: blur(3px);
+}
+canvas {
+	width: 250px;
+	height: 200px;
+	background-color: white;
+	border-radius: 5px;
+	opacity: 0.8;
+}
+#qr a {
+	text-decoration: none;
+	font-size: 25px;
+	position: absolute;
+	top: 15.5px;
+	right: 15px;
+}
+#qr h5 {
+	margin-left: 5px;
+}
+
+a {
+	color: white;
+}
+
+#overlay {
+	position: fixed;
+	top: -100%;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 10;
+	transition: 0.25s background-color, 0.25s backdrop-filter;
+}
