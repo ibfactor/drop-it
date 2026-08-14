@@ -1,3 +1,130 @@
+const TRACKING_PARAMS = [
+  // UTM
+  "utm_source",
+  "utm_medium",
+  "utm_campaign",
+  "utm_term",
+  "utm_content",
+  "utm_id",
+  "utm_source_platform",
+  "utm_creative_format",
+  "utm_marketing_tactic",
+
+  // Google
+  "gclid",
+  "dclid",
+  "gbraid",
+  "wbraid",
+  "gclsrc",
+  "gad_source",
+  "gad_campaignid",
+
+  // Meta / Facebook / Instagram
+  "fbclid",
+  "fb_action_ids",
+  "fb_action_types",
+  "fb_source",
+  "fb_ref",
+  "fbc",
+  "fbp",
+  "igshid",
+  "igsh",
+
+  // Microsoft / Bing
+  "msclkid",
+
+  // TikTok
+  "ttclid",
+
+  // Twitter / X
+  "twclid",
+
+  // LinkedIn
+  "li_fat_id",
+  "liap",
+  "lipi",
+
+  // Pinterest
+  "epik",
+
+  // Yandex
+  "yclid",
+  "ymclid",
+
+  // Mailchimp
+  "mc_cid",
+  "mc_eid",
+
+  // Adobe / marketing
+  "mkt_tok",
+
+  // Generic tracking
+  "ref",
+  "ref_src",
+  "referrer",
+  "referer",
+  "source",
+  "src",
+  "campaign",
+  "campaign_id",
+  "campaignid",
+  "ad_id",
+  "adid",
+  "adset_id",
+  "adsetid",
+  "creative_id",
+  "creativeid",
+  "placement_id",
+  "click_id",
+  "clickid",
+  "click_token",
+  "tracking_id",
+  "trackingid",
+  "track",
+  "tracking",
+  "trk",
+  "trk_id",
+
+  // Affiliate
+  "aff_id",
+  "affid",
+  "affiliate",
+  "affiliate_id",
+  "affiliateid",
+  "partner_id",
+  "ref_id",
+  "refid"
+];
+async function urlQR() {
+	document.getElementById("qr").classList.add("visible");
+
+    const canvas = document.querySelector("canvas");
+    await QRCode.toCanvas(canvas, document.querySelector("pre").innerText, {
+        width: 400,
+        margin: 2
+    });
+}
+function cleanURL() {
+	const urls = document.querySelector("pre").innerText;
+	var clean_urls = "";
+	urls.split("\n").forEach((url) => {
+		if (url.includes("?")) {
+		    var cleanURL = `${url.split("?")[0]}?`;
+		    url.split("?")[1].split("&").forEach((item) => {
+		        if (TRACKING_PARAMS.includes(item.split("=")[0].toLowerCase())) return;
+		        cleanURL += item + "&";
+		    });
+		    cleanURL = cleanURL.trim("&");
+		}
+		else {
+			var cleanURL = url;
+		}
+
+		clean_urls += cleanURL + "\n";
+	});
+	document.querySelector("pre").innerText = clean_urls.trim("\n");
+}
+
 async function jsonQR() {
 	document.getElementById("qr").classList.add("visible");
 
@@ -73,6 +200,8 @@ async function processValues() {
 		try {
 			const json = JSON.parse(v1);
 
+			document.getElementById("jsonActions").style.display = "block";
+
 			document.getElementById("input_t").innerText = v1;
 
 			document.getElementById("jsonQR").addEventListener("click", jsonQR);
@@ -83,9 +212,17 @@ async function processValues() {
 			document.getElementById("jsonConvert").addEventListener("click", () => {
 				document.querySelector("#jsonConversion").classList.add("visible");
 			});
+			return;
 		}
 		catch (err) {
 			console.log("Not JSON");
+		}
+
+		if (v1.startsWith("https://") || v1.startsWith("http://")) {
+			document.getElementById("input_t").innerText = v1;
+			document.getElementById("urlActions").style.display = "block";
+			document.getElementById("urlQR").addEventListener("click", urlQR);
+			document.getElementById("urlClean").addEventListener("click", cleanURL);
 		}
 	}
 	else {

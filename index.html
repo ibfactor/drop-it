@@ -14,7 +14,7 @@
 			<label for="main_file">
 				<span>
 					<span>Drag & Drop or Click Here</span>
-					<span>supports URLs, JSON, PNG, JPEG, GIF, MP4, MP3, TXT</span>
+					<span>supports URLs, JSON, PNG, JPEG, GIF, MP4, MP3</span>
 				</span>
 			</label>
 			<input type="file" id="main_file">
@@ -27,13 +27,19 @@
 		<main id="view2">
 			<span id="loader"></span>
 			<pre id="input_t"></pre>
-			<div class="actions">
+			<div class="actions" id="jsonActions">
 				<button id="jsonMinify">Minify<i class="fas fa-compress-arrows-alt sm"></i></button>
 				<button id="jsonPrettify">Prettify<i class="fas fa-magic sm"></i></button>
 				<button id="jsonVisualise">Visualise<i class="fas fa-hand-pointer sm"></i></button>
 				<button id="jsonConvert">Convert<i class="fas fa-chevron-right sm"></i></button>
 				<button><i class="fas fa-upload"></i></button>
 				<button id="jsonQR"><i class="fas fa-qrcode"></i></button>
+			</div>
+			<div class="actions" id="urlActions">
+				<button id="urlClean">Clean<i class="fas fa-compress-arrows-alt sm"></i></button>
+				<button id="urlShorten">Shorten<i class="fas fa-compress-arrows-alt sm"></i></button>
+				<button><i class="fas fa-upload"></i></button>
+				<button id="urlQR"><i class="fas fa-qrcode"></i></button>
 			</div>
 		</main>
 
@@ -54,6 +60,7 @@
 
 		<div class="conversion" id="jsonConversion">
 			<h5>Convert File</h5>
+			<a href="#" class="close">&times;</a>
 			<select><option>JSON</option></select> to <select id="JSONConvertTo"><option>XML</option><option>YAML</option></select>
 			<button id="jsonConvert2">GO!</button>
 		</div>
