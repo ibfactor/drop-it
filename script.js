@@ -124,6 +124,28 @@ function cleanURL() {
 	});
 	document.querySelector("pre").innerText = clean_urls.trim("\n");
 }
+async function shortenURL() {
+	const urls = document.querySelector("pre").innerText.split("\n");
+	var shortened = [];
+	for (var i = urls.length - 1; i >= 0; i--) {
+		if (!urls[i].startsWith("http")) continue;
+		const f1 = await fetch("https://zip1.io/api/create", {
+		  method: "POST",
+		  headers: {
+		    "Content-Type": "application/json"
+		  },
+		  body: JSON.stringify({
+		    "url": urls[i],
+		  })
+		});
+		const f2 = await f1.json();
+		shortened.push(f2.short_url);
+	}
+	document.querySelector("pre").innerText = "";
+	shortened.forEach((item) => {
+		document.querySelector("pre").innerText += item + "\n";
+	});
+}
 
 async function jsonQR() {
 	document.getElementById("qr").classList.add("visible");
@@ -223,6 +245,7 @@ async function processValues() {
 			document.getElementById("urlActions").style.display = "block";
 			document.getElementById("urlQR").addEventListener("click", urlQR);
 			document.getElementById("urlClean").addEventListener("click", cleanURL);
+			document.getElementById("urlShorten").addEventListener("click", shortenURL);
 		}
 	}
 	else {
