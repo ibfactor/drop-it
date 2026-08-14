@@ -196,6 +196,10 @@ button:hover {
 	width: calc(50% - 65px);
 }
 
+#pngActions button:not(#pngActions button:nth-last-of-type(1), #pngActions button:nth-last-of-type(2)) {
+	width: calc(25% - 34.5px);
+}
+
 #qr {
 	position: fixed;
 	background-color: #1a1a1a;
@@ -343,4 +347,11 @@ select {
 
 .actions {
 	display: none;
+}
+
+
+pre img {
+	width: 100%;
+	height:100%;
+	object-fit: contain;
 }
