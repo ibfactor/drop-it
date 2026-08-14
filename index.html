@@ -19,19 +19,7 @@
 			</label>
 			<input type="file" id="main_file">
 
-			<textarea placeholder="or paste something here">{
-  "title": "Lorem Ipsum Dolor",
-  "status": "success",
-  "code": 200,
-  "data": {
-    "header": "Lorem ipsum dolor sit amet",
-    "paragraphs": [
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-    ]
-  }
-}</textarea>
+			<textarea placeholder="or paste something here"></textarea>
 
 			<p>no file leaves your device unless you choose to store it in your drive</p>
 		</main>
@@ -42,7 +30,8 @@
 			<div class="actions">
 				<button id="jsonMinify">Minify<i class="fas fa-compress-arrows-alt sm"></i></button>
 				<button id="jsonPrettify">Prettify<i class="fas fa-magic sm"></i></button>
-				<button>Convert<i class="fas fa-chevron-right sm"></i></button>
+				<button id="jsonVisualise">Visualise<i class="fas fa-hand-pointer sm"></i></button>
+				<button id="jsonConvert">Convert<i class="fas fa-chevron-right sm"></i></button>
 				<button><i class="fas fa-upload"></i></button>
 				<button id="jsonQR"><i class="fas fa-qrcode"></i></button>
 			</div>
@@ -56,8 +45,26 @@
 			</canvas>
 		</div>
 
+		<div id="visualise">
+			<h5>Explore Data</h5>
+			<a href="#" class="close">&times;</a>
+			<iframe src="https://jsoncrack.com/widget">
+			</iframe>
+		</div>
+
+		<div class="conversion" id="jsonConversion">
+			<h5>Convert File</h5>
+			<select><option>JSON</option></select> to <select id="JSONConvertTo"><option>XML</option><option>YAML</option></select>
+			<button id="jsonConvert2">GO!</button>
+		</div>
+
 		<div id="overlay"></div>
 
+		<script type="module">
+		    import { stringify } from "https://cdn.jsdelivr.net/npm/yaml@2.9.0/browser/index.js";
+		    window.stringify = stringify;
+		</script>
+		<script src="https://cdn.jsdelivr.net/npm/xml-js@1.6.11/dist/xml-js.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 		<script src="/script.js"></script>
 	</body>

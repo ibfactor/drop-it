@@ -186,7 +186,7 @@ button:hover {
 }
 
 .actions button:not(.actions button:nth-last-of-type(1), .actions button:nth-last-of-type(2)) {
-	width: calc(33% - 40.8px);
+	width: calc(25% - 34.5px);
 }
 
 #qr {
@@ -242,4 +242,94 @@ a {
 	height: 100%;
 	z-index: 10;
 	transition: 0.25s background-color, 0.25s backdrop-filter;
+}
+
+#visualise {
+	position: fixed;
+	background-color: #1a1a1a;
+	border-radius: 10px;
+	border: 1px solid rgba(255, 255, 255, 0.5);
+	padding: 10px;
+	padding-top: 0px;
+	top: -100%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	opacity: 0;
+	transition: 0.25s all;
+}
+#visualise.visible {
+	top: 50%;
+	opacity: 1;
+	z-index: 11;
+}
+#visualise.visible ~ #overlay {
+	top: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	backdrop-filter: blur(3px);
+}
+#visualise iframe {
+	width: 500px;
+	height: 300px;
+	border: 0;
+}
+#visualise a {
+	text-decoration: none;
+	font-size: 25px;
+	position: absolute;
+	top: 15.5px;
+	right: 15px;
+}
+#visualise h5 {
+	margin-left: 5px;
+}
+
+
+.conversion {
+	position: fixed;
+	background-color: #1a1a1a;
+	border-radius: 10px;
+	border: 1px solid rgba(255, 255, 255, 0.5);
+	padding: 20px;
+	padding-top: 0px;
+	top: -100%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	opacity: 0;
+	transition: 0.25s all;
+}
+.conversion.visible {
+	top: 50%;
+	opacity: 1;
+	z-index: 11;
+}
+.conversion.visible ~ #overlay {
+	top: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	backdrop-filter: blur(3px);
+}
+.conversion a {
+	text-decoration: none;
+	font-size: 25px;
+	position: absolute;
+	top: 15.5px;
+	right: 15px;
+}
+.conversion h5 {
+	margin-left: 5px;
+}
+.conversion button {
+	display: block;
+	width: 100%;
+	padding: 5px;
+	margin-top: 10px;
+}
+
+
+select {
+	background-color: #101010;
+	color: white;
+	border-radius: 5px;
+	border-radius: 1px solid #4a4a4a;
+	font-size: 15px;
+	padding: 5px;
 }

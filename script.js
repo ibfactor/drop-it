@@ -13,7 +13,58 @@ function jsonMinify() {
 function jsonPrettify() {
 	document.querySelector("pre").innerText = JSON.stringify(JSON.parse(document.querySelector("pre").innerText), null, 2);
 }
+function jsonVisualise() {
+	const jsonCrackEmbed = document.querySelector("iframe");
 
+	const json = document.querySelector("pre").innerText;
+	const options = {
+		theme: "dark",
+		direction: "RIGHT",
+	};
+
+	jsonCrackEmbed.contentWindow.postMessage({
+		json,
+		options
+	}, "*");
+
+	document.getElementById("visualise").classList.add("visible");
+}
+function jsonConvert() {
+	if (document.getElementById("JSONConvertTo").value == "XML") {
+
+		const xml = json2xml(JSON.parse(document.querySelector("pre").innerText), {
+		  compact: true
+		});
+
+		const blob = new Blob([xml], { type: "application/xml" });
+   		const url = URL.createObjectURL(blob);
+
+		downloadFile("output.xml", url);
+
+	}
+	if (document.getElementById("JSONConvertTo").value == "YAML") {
+		const yaml = stringify({
+		  "title": "Lorem Ipsum Dolor",
+		  "status": "success",
+		  "code": 200,
+		  "data": {
+		    "header": "Lorem ipsum dolor sit amet",
+		    "paragraphs": [
+		      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+		      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+		      "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+		    ]
+		  }
+		});
+
+		const blob = new Blob([yaml], { type: "application/yaml" });
+   		const url = URL.createObjectURL(blob);
+
+		downloadFile("output.yaml", url);
+	}
+
+	document.querySelector("#jsonConversion").classList.remove("visible");
+}
 
 function processValues() {
 	const v1 = document.querySelector("textarea").value;
@@ -27,6 +78,11 @@ function processValues() {
 			document.getElementById("jsonQR").addEventListener("click", jsonQR);
 			document.getElementById("jsonMinify").addEventListener("click", jsonMinify);
 			document.getElementById("jsonPrettify").addEventListener("click", jsonPrettify);
+			document.getElementById("jsonVisualise").addEventListener("click", jsonVisualise);
+			document.getElementById("jsonConvert2").addEventListener("click", jsonConvert);
+			document.getElementById("jsonConvert").addEventListener("click", () => {
+				document.querySelector("#jsonConversion").classList.add("visible");
+			});
 		}
 		catch (err) {
 			console.log("Not JSON");
@@ -42,13 +98,20 @@ function processFile() {
 	}, 1000);
 }
 
+function downloadFile(fname, furl) {
+	var link = document.createElement("a");
+	link.setAttribute("download", fname)
+	document.body.appendChild(link);
+	link.href = furl;
+	link.click();
+}
+
 document.getElementById("main_file").addEventListener("change", processFile);
 document.querySelector("textarea").addEventListener("paste", processFile);
-
-processFile();
 
 document.querySelectorAll(".close").forEach((el) => {
 	el.addEventListener("click", () => {
 		el.parentElement.classList.remove("visible");
 	});
 });
+
