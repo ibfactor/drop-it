@@ -6,7 +6,7 @@ async function shareFile() {
     });
 
 	client.seed(await document.getElementById("main_file").files[0], async torrent => {
-	    const url = torrent.magnetURI.replace("magnet:", "https://" + location.href.split("//")[1].split("/")[0] + "/dl.html");
+	    const url = torrent.magnetURI.replace("magnet:", "https://" + location.href.split("//")[1].split("/")[0] + "/dl");
 	
 		document.getElementById("qr").classList.add("visible");
 

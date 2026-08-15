@@ -7,7 +7,7 @@ function handle () {
     });
 
 
-	client.add("magnet:" + location.href.split("dl.html")[1], torrent => {
+	client.add("magnet:" + location.href.split("/dl")[1], torrent => {
 		document.getElementById("dle").innerText = "Client is downloading: " + torrent.infoHash;
 
 
