@@ -1,7 +1,86 @@
+async function resizeJPG() {
+	document.getElementById("jpg_resize").classList.add("visible");
+	document.getElementById("imgwidth2").outerHTML = document.getElementById("imgwidth2").outerHTML;
+	document.getElementById("imgheight2").outerHTML = document.getElementById("imgheight2").outerHTML;
+
+	const img = new Image();
+	img.src = document.querySelector("img").src;
+	await img.decode();
+
+	var canvas = document.querySelectorAll("canvas")[2];
+	var ctx = canvas.getContext("2d");
+
+	document.getElementById("imgwidth2").value = img.width;
+	document.getElementById("imgheight2").value = img.height;
+
+	canvas.width = document.getElementById("imgwidth2").value;
+	canvas.height = document.getElementById("imgheight2").value;
+	ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+	document.getElementById("imgwidth2").addEventListener("keyup", () => {
+		if (document.getElementById("preserve_ar2").checked) {
+			document.getElementById("imgheight2").value = (img.height / img.width) * document.getElementById("imgwidth2").value;
+		}
+		canvas.width = document.getElementById("imgwidth2").value;
+		canvas.height = document.getElementById("imgheight2").value;
+		var ctx = canvas.getContext("2d");
+		ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+	});
+	document.getElementById("imgheight2").addEventListener("keyup", () => {
+		if (document.getElementById("preserve_ar2").checked) {
+			document.getElementById("imgwidth2").value = (img.width / img.height) * document.getElementById("imgheight2").value;
+		}
+		canvas.width = document.getElementById("imgwidth2").value;
+		canvas.height = document.getElementById("imgheight2").value;
+		var ctx = canvas.getContext("2d");
+		ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+	});
+}
+async function compressJPG() {
+	const img = new Image();
+	img.src = document.querySelector("img").src;
+	await img.decode();
+
+	document.querySelector("canvas").width = img.naturalWidth;
+	document.querySelector("canvas").height = img.naturalHeight;
+
+	const ctx = document.querySelector("canvas").getContext("2d");
+	ctx.drawImage(img, 0, 0);
+	const imageData = ctx.getImageData(0, 0, document.querySelector("canvas").width, document.querySelector("canvas").height);
+
+	const blob = await new Promise(resolve => document.querySelector("canvas").toBlob(resolve, "image/jpeg", 0.7));
+	const url = URL.createObjectURL(blob);
+	downloadFile("output.jpg", url);
+}
+async function convertJPG() {
+	const img = new Image();
+	img.src = document.querySelector("img").src;
+	await img.decode();
+
+	document.querySelector("canvas").width = img.naturalWidth;
+	document.querySelector("canvas").height = img.naturalHeight;
+
+	const ctx = document.querySelector("canvas").getContext("2d");
+	ctx.drawImage(img, 0, 0);
+
+	if (document.getElementById("JPGConvertTo").value == "PNG") {
+		const blob = await new Promise(resolve =>
+			document.querySelector("canvas").toBlob(resolve, "image/png")
+		);
+		const url = URL.createObjectURL(blob);
+		downloadFile("output.png", url);
+	}
+	else {
+		const blob = await new Promise(resolve =>
+			document.querySelector("canvas").toBlob(resolve, "image/webp", 1.0)
+		);
+		const url = URL.createObjectURL(blob);
+		downloadFile("output.webp", url);
+	}
+}
+
+
 function cropImage(x, y, width, height) {
-
-	console.log(x, y, width, height);
-
     const img = document.querySelector("img");
 
     document.querySelector("canvas").width = Math.round(width);
@@ -14,6 +93,34 @@ function cropImage(x, y, width, height) {
     	console.log(blob);
         downloadFile("output.png", URL.createObjectURL(blob));
     }, "image/png");
+}
+async function convertPNG() {
+	const img = new Image();
+	img.src = document.querySelector("img").src;
+	await img.decode();
+
+	document.querySelector("canvas").width = img.naturalWidth;
+	document.querySelector("canvas").height = img.naturalHeight;
+
+	const ctx = document.querySelector("canvas").getContext("2d");
+	ctx.fillStyle = "#fff";
+	ctx.fillRect(0, 0, document.querySelector("canvas").width, document.querySelector("canvas").height);
+	ctx.drawImage(img, 0, 0);
+
+	if (document.getElementById("PNGConvertTo").value == "JPEG") {
+		const blob = await new Promise(resolve =>
+			document.querySelector("canvas").toBlob(resolve, "image/jpeg", 1.0)
+		);
+		const url = URL.createObjectURL(blob);
+		downloadFile("output.jpg", url);
+	}
+	else {
+		const blob = await new Promise(resolve =>
+			document.querySelector("canvas").toBlob(resolve, "image/webp", 1.0)
+		);
+		const url = URL.createObjectURL(blob);
+		downloadFile("output.webp", url);
+	}
 }
 async function compressPNG() {
 	const img = new Image();
@@ -379,25 +486,11 @@ async function processValues() {
 			document.getElementById("pngResize").addEventListener("click", resizePNG);
 			document.getElementById("pngCrop").addEventListener("click", cropImg);
 
+			document.getElementById("pngConvert2").addEventListener("click", convertPNG);
+			document.getElementById("pngConvert").addEventListener("click", () => {
+				document.querySelector("#pngConversion").classList.add("visible");
+			});
 
-
-	const box = document.querySelector("img").getBoundingClientRect();
-
-	const scale = Math.min(
-	    box.width / document.querySelector("img").naturalWidth,
-	    box.height / document.querySelector("img").naturalHeight
-	);
-
-	const imgWidth = document.querySelector("img").naturalWidth;
-	const imgHeight = document.querySelector("img").naturalHeight;
-
-	const imgRect = {
-	    left: box.left + (box.width - imgWidth) / 2,
-	    top: box.top + (box.height - imgHeight) / 2,
-	};
-
-	document.querySelector("img").style.left = (box.left + (box.width - imgWidth) / 2) + "px";
-	document.querySelector("img").style.top = (box.top + (box.height - imgHeight) / 2) + "px";
 
 			document.querySelector("#rsz").addEventListener("mousedown", function(e) {
 
@@ -416,6 +509,41 @@ async function processValues() {
 
 			document.addEventListener("mouseup", function() {
 			    document.onmousemove = null;
+			});
+
+		}
+		else if (file_ext == "jpg" || file_ext == "jpeg") {
+			const v2c = await document.getElementById("main_file").files[0];
+			document.querySelector("pre").innerHTML = `<img src="${URL.createObjectURL(v2c)}"><div id="crop"><div id="overlayc"></div><div id="rsz"></div></div>`;
+			document.getElementById("jpegActions").style.display = "block";
+
+			document.getElementById("jpgResize").addEventListener("click", resizePNG);
+			document.getElementById("jpgCompress").addEventListener("click", compressJPG);
+		
+			document.querySelector("#rsz").addEventListener("mousedown", function(e) {
+
+				const rect = document.querySelector("#rsz").getBoundingClientRect();
+			    const onResizeHandle =
+			        e.clientX >= rect.right - 5 &&
+			        e.clientY >= rect.bottom - 10;
+
+			    if (onResizeHandle) return;
+
+			    document.onmousemove = function(e) {
+			        document.querySelector("#rsz").style.left = (e.clientX - 30 - (document.querySelector("#rsz").offsetWidth / 2)) + "px";
+			        document.querySelector("#rsz").style.top = (e.clientY - 30 - (document.querySelector("#rsz").offsetHeight / 2)) + "px";
+			    };
+			});
+
+			document.addEventListener("mouseup", function() {
+			    document.onmousemove = null;
+			});
+
+			document.getElementById("jpgCrop").addEventListener("click", cropImg);
+
+			document.getElementById("jpgConvert2").addEventListener("click", convertJPG);
+			document.getElementById("jpgConvert").addEventListener("click", () => {
+				document.querySelector("#jpgConversion").classList.add("visible");
 			});
 
 		}
