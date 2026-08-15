@@ -14,7 +14,7 @@
 			<label for="main_file">
 				<span>
 					<span>Drag & Drop or Click Here</span>
-					<span>supports URLs, JSON, PNG, JPEG, GIF, MP4, MP3</span>
+					<span>supports URLs, JSON, PNG, JPEG, WEBp, MP4, MKV, MOV</span>
 				</span>
 			</label>
 			<input type="file" id="main_file">
@@ -55,6 +55,13 @@
 				<button id="jpgConvert">Convert<i class="fas fa-chevron-right sm"></i></button>
 				<button><i class="fas fa-upload"></i></button>
 			</div>
+			<div class="actions" id="webpActions">
+				<button id="webpCrop">Crop<i class="fas fa-crop sm"></i></button>
+				<button id="webpResize">Resize<i class="fas fa-expand sm"></i></button>
+				<button id="webpCompress">Compress<i class="fas fa-compress-arrows-alt sm"></i></button>
+				<button id="webpConvert">Convert<i class="fas fa-chevron-right sm"></i></button>
+				<button><i class="fas fa-upload"></i></button>
+			</div>
 		</main>
 
 
@@ -93,6 +100,13 @@
 			<button id="jpgConvert2">GO!</button>
 		</div>
 
+		<div class="conversion" id="webpConversion">
+			<h5>Convert File</h5>
+			<a href="#" class="close">&times;</a>
+			<select><option>WebP</option></select> to <select id="WEBPConvertTo"><option>JPEG</option><option>PNG</option></select>
+			<button id="webpConvert2">GO!</button>
+		</div>
+
 		<div id="png_resize">
 			<h5>Resize Image</h5>
 			<input type="number" placeholder="width" id="imgwidth"> &times; <input id="imgheight" type="number" placeholder="height">
@@ -105,7 +119,16 @@
 		<div id="jpg_resize">
 			<h5>Resize Image</h5>
 			<input type="number" placeholder="width" id="imgwidth2"> &times; <input id="imgheight2" type="number" placeholder="height">
-			<input type="checkbox" id="preserve_ar2" checked> <label for="preserve_ar">Preserve Aspect Ratio</label>
+			<input type="checkbox" id="preserve_ar2" checked> <label for="preserve_ar2">Preserve Aspect Ratio</label>
+			<a href="#" class="close">&times;</a>
+			<canvas>
+			</canvas>
+		</div>
+
+		<div id="webp_resize">
+			<h5>Resize Image</h5>
+			<input type="number" placeholder="width" id="imgwidth3"> &times; <input id="imgheight3" type="number" placeholder="height">
+			<input type="checkbox" id="preserve_ar3" checked> <label for="preserve_ar3">Preserve Aspect Ratio</label>
 			<a href="#" class="close">&times;</a>
 			<canvas>
 			</canvas>
