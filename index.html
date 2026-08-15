@@ -42,12 +42,11 @@
 				<button id="urlQR"><i class="fas fa-qrcode"></i></button>
 			</div>
 			<div class="actions" id="pngActions">
-				<button>Crop<i class="fas fa-crop sm"></i></button>
-				<button>Resize<i class="fas fa-expand sm"></i></button>
-				<button>Compress<i class="fas fa-compress-arrows-alt sm"></i></button>
-				<button id="urlShorten">Convert<i class="fas fa-chevron-right sm"></i></button>
+				<button id="pngCrop">Crop<i class="fas fa-crop sm"></i></button>
+				<button id="pngResize">Resize<i class="fas fa-expand sm"></i></button>
+				<button id="pngCompress">Compress<i class="fas fa-compress-arrows-alt sm"></i></button>
+				<button id="pngConvert">Convert<i class="fas fa-chevron-right sm"></i></button>
 				<button><i class="fas fa-upload"></i></button>
-				<button id="urlQR"><i class="fas fa-qrcode"></i></button>
 			</div>
 		</main>
 
@@ -73,8 +72,19 @@
 			<button id="jsonConvert2">GO!</button>
 		</div>
 
+		<div id="png_resize">
+			<h5>Resize Image</h5>
+			<input type="number" placeholder="width" id="imgwidth"> &times; <input id="imgheight" type="number" placeholder="height">
+			<input type="checkbox" id="preserve_ar" checked> <label for="preserve_ar">Preserve Aspect Ratio</label>
+			<a href="#" class="close">&times;</a>
+			<canvas>
+			</canvas>
+		</div>
+
 		<div id="overlay"></div>
 
+		<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+		<script src="https://unpkg.com/@upng/upng-js/dist/UPNG.umd.js"></script>
 		<script type="module">
 		    import { stringify } from "https://cdn.jsdelivr.net/npm/yaml@2.9.0/browser/index.js";
 		    window.stringify = stringify;

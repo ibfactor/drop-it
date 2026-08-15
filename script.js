@@ -1,3 +1,98 @@
+function cropImage(x, y, width, height) {
+
+	console.log(x, y, width, height);
+
+    const img = document.querySelector("img");
+
+    document.querySelector("canvas").width = Math.round(width);
+    document.querySelector("canvas").height = Math.round(height);
+    const ctx = document.querySelector("canvas").getContext("2d");
+
+    ctx.drawImage(img, Math.round(x), Math.round(y), Math.round(width), Math.round(height), 0, 0, Math.round(width), Math.round(height));
+
+    document.querySelector("canvas").toBlob(blob => {
+    	console.log(blob);
+        downloadFile("output.png", URL.createObjectURL(blob));
+    }, "image/png");
+}
+async function compressPNG() {
+	const img = new Image();
+	img.src = document.querySelector("img").src;
+	await img.decode();
+
+	document.querySelector("canvas").width = img.naturalWidth;
+	document.querySelector("canvas").height = img.naturalHeight;
+
+	const ctx = document.querySelector("canvas").getContext("2d");
+	ctx.drawImage(img, 0, 0);
+	const imageData = ctx.getImageData(0, 0, document.querySelector("canvas").width, document.querySelector("canvas").height);
+	const png = UPNG.encode([imageData.data.buffer], document.querySelector("canvas").width, document.querySelector("canvas").height, 0);
+
+	const blob = new Blob([png], { type: "image/png" });
+	const url = URL.createObjectURL(blob);
+	downloadFile("output.png", url);
+}
+async function resizePNG() {
+	document.getElementById("png_resize").classList.add("visible");
+	document.getElementById("imgwidth").outerHTML = document.getElementById("imgwidth").outerHTML;
+	document.getElementById("imgheight").outerHTML = document.getElementById("imgheight").outerHTML;
+
+	const img = new Image();
+	img.src = document.querySelector("img").src;
+	await img.decode();
+
+	var canvas = document.querySelectorAll("canvas")[1];
+	var ctx = canvas.getContext("2d");
+
+	document.getElementById("imgwidth").value = img.width;
+	document.getElementById("imgheight").value = img.height;
+
+	canvas.width = document.getElementById("imgwidth").value;
+	canvas.height = document.getElementById("imgheight").value;
+	ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+	document.getElementById("imgwidth").addEventListener("keyup", () => {
+		if (document.getElementById("preserve_ar").checked) {
+			document.getElementById("imgheight").value = (img.height / img.width) * document.getElementById("imgwidth").value;
+		}
+		canvas.width = document.getElementById("imgwidth").value;
+		canvas.height = document.getElementById("imgheight").value;
+		var ctx = canvas.getContext("2d");
+		ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+	});
+	document.getElementById("imgheight").addEventListener("keyup", () => {
+		if (document.getElementById("preserve_ar").checked) {
+			document.getElementById("imgwidth").value = (img.width / img.height) * document.getElementById("imgheight").value;
+		}
+		canvas.width = document.getElementById("imgwidth").value;
+		canvas.height = document.getElementById("imgheight").value;
+		var ctx = canvas.getContext("2d");
+		ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+	});
+}
+function cropImg() {
+	const rsz = document.querySelector("#rsz");
+	const img = document.querySelector("img");
+
+	const rect = rsz.getBoundingClientRect();
+	const box = img.getBoundingClientRect();
+
+	const scale = Math.min(
+	    box.width / img.naturalWidth,
+	    box.height / img.naturalHeight
+	);
+
+	const imgWidth = img.naturalWidth * scale;
+	const imgHeight = img.naturalHeight * scale;
+
+	const imgRect = {
+	    left: box.left + (box.width - imgWidth) / 2,
+	    top: box.top + (box.height - imgHeight) / 2,
+	};
+
+	cropImage((rect.left - imgRect.left) / scale, (rect.top - imgRect.top) / scale, rect.width / scale, rect.height / scale);
+}
+
 const TRACKING_PARAMS = [
   // UTM
   "utm_source",
@@ -249,7 +344,8 @@ async function processValues() {
 		}
 	}
 	else {
-		if (v2.split(".").pop().toLowerCase() == "json") {
+		const file_ext = v2.split(".").pop().toLowerCase();
+		if (file_ext == "json") {
 			try {
 
 				const v2c = await document.getElementById("main_file").files[0].text();
@@ -257,6 +353,8 @@ async function processValues() {
 				const json = JSON.parse(v2c);
 
 				document.getElementById("input_t").innerText = v2c;
+
+				document.getElementById("jsonActions").style.display = "block";
 
 				document.getElementById("jsonQR").addEventListener("click", jsonQR);
 				document.getElementById("jsonMinify").addEventListener("click", jsonMinify);
@@ -266,10 +364,69 @@ async function processValues() {
 				document.getElementById("jsonConvert").addEventListener("click", () => {
 					document.querySelector("#jsonConversion").classList.add("visible");
 				});
+				return;
 
 			}
 			catch (err) {
 				console.log("Not JSON");
+			}
+		}
+		else if (file_ext == "png") {
+			const v2c = await document.getElementById("main_file").files[0];
+			document.querySelector("pre").innerHTML = `<img src="${URL.createObjectURL(v2c)}"><div id="crop"><div id="overlayc"></div><div id="rsz"></div></div>`;
+			document.getElementById("pngActions").style.display = "block";
+			document.getElementById("pngCompress").addEventListener("click", compressPNG);
+			document.getElementById("pngResize").addEventListener("click", resizePNG);
+			document.getElementById("pngCrop").addEventListener("click", cropImg);
+
+
+
+	const box = document.querySelector("img").getBoundingClientRect();
+
+	const scale = Math.min(
+	    box.width / document.querySelector("img").naturalWidth,
+	    box.height / document.querySelector("img").naturalHeight
+	);
+
+	const imgWidth = document.querySelector("img").naturalWidth;
+	const imgHeight = document.querySelector("img").naturalHeight;
+
+	const imgRect = {
+	    left: box.left + (box.width - imgWidth) / 2,
+	    top: box.top + (box.height - imgHeight) / 2,
+	};
+
+	document.querySelector("img").style.left = (box.left + (box.width - imgWidth) / 2) + "px";
+	document.querySelector("img").style.top = (box.top + (box.height - imgHeight) / 2) + "px";
+
+			document.querySelector("#rsz").addEventListener("mousedown", function(e) {
+
+				const rect = document.querySelector("#rsz").getBoundingClientRect();
+			    const onResizeHandle =
+			        e.clientX >= rect.right - 5 &&
+			        e.clientY >= rect.bottom - 10;
+
+			    if (onResizeHandle) return;
+
+			    document.onmousemove = function(e) {
+			        document.querySelector("#rsz").style.left = (e.clientX - 30 - (document.querySelector("#rsz").offsetWidth / 2)) + "px";
+			        document.querySelector("#rsz").style.top = (e.clientY - 30 - (document.querySelector("#rsz").offsetHeight / 2)) + "px";
+			    };
+			});
+
+			document.addEventListener("mouseup", function() {
+			    document.onmousemove = null;
+			});
+
+		}
+		else {
+			const v2c = await document.getElementById("main_file").files[0].text();
+			if (v2c.startsWith("https://") || v2c.startsWith("http://")) {
+				document.getElementById("input_t").innerText = v2c;
+				document.getElementById("urlActions").style.display = "block";
+				document.getElementById("urlQR").addEventListener("click", urlQR);
+				document.getElementById("urlClean").addEventListener("click", cleanURL);
+				document.getElementById("urlShorten").addEventListener("click", shortenURL);
 			}
 		}
 	}

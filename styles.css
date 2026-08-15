@@ -138,6 +138,7 @@ pre {
 	color: rgba(255, 255, 255, 0.8);
 	border-radius: 5px;
 	user-select: text;
+	position: relative;
 }
 
 .actions {
@@ -196,8 +197,8 @@ button:hover {
 	width: calc(50% - 65px);
 }
 
-#pngActions button:not(#pngActions button:nth-last-of-type(1), #pngActions button:nth-last-of-type(2)) {
-	width: calc(25% - 34.5px);
+#pngActions button:not(#pngActions button:nth-last-of-type(1)) {
+	width: calc(25% - 19px);
 }
 
 #qr {
@@ -336,11 +337,11 @@ a {
 }
 
 
-select {
+select, input {
 	background-color: #101010;
 	color: white;
 	border-radius: 5px;
-	border-radius: 1px solid #4a4a4a;
+	border: 1px solid #4a4a4a;
 	font-size: 15px;
 	padding: 5px;
 }
@@ -354,4 +355,72 @@ pre img {
 	width: 100%;
 	height:100%;
 	object-fit: contain;
+}
+
+
+#png_resize {
+	position: fixed;
+	background-color: #1a1a1a;
+	border-radius: 10px;
+	border: 1px solid rgba(255, 255, 255, 0.5);
+	padding: 10px;
+	padding-top: 0px;
+	top: -100%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	opacity: 0;
+	transition: 0.25s all;
+}
+#png_resize.visible {
+	top: 50%;
+	opacity: 1;
+	z-index: 11;
+}
+#png_resize.visible ~ #overlay {
+	top: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	backdrop-filter: blur(3px);
+}
+#png_resize a {
+	text-decoration: none;
+	font-size: 25px;
+	position: absolute;
+	top: 15.5px;
+	right: 15px;
+}
+#png_resize input:not(input[type="checkbox"]) {
+	width: calc(50% - 23px);
+}
+#png_resize canvas {
+	margin-top: 10px;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+#crop {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+}
+#overlayc {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+#rsz {
+	backdrop-filter: brightness(1.5);
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	width: calc(100% - 10px);
+	height: calc(100% - 10px);
+	border: 1px dashed rgba(29, 104, 224);
+	resize: both;
+	overflow: auto;
 }
