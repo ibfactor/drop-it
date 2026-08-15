@@ -1,3 +1,7 @@
+function showExif() {
+	document.getElementById("exif_data").classList.toggle("visible");
+}
+
 async function convertWEBP() {
 	const img = new Image();
 	img.src = document.querySelector("img").src;
@@ -534,6 +538,7 @@ async function processValues() {
 	}
 	else {
 		const file_ext = v2.split(".").pop().toLowerCase();
+
 		if (file_ext == "json") {
 			try {
 
@@ -562,7 +567,12 @@ async function processValues() {
 		}
 		else if (file_ext == "png") {
 			const v2c = await document.getElementById("main_file").files[0];
-			document.querySelector("pre").innerHTML = `<img src="${URL.createObjectURL(v2c)}"><div id="crop"><div id="overlayc"></div><div id="rsz"></div></div>`;
+			document.querySelector("pre").innerHTML = `<img src="${URL.createObjectURL(v2c)}"><div id="crop"><div id="overlayc"></div><div id="rsz"></div></div><button id="exif"><i class="fas fa-info"></i></button>`;
+			
+			const tags = JSON.stringify(await ExifReader.load(await document.getElementById("main_file").files[0]), null, 8);
+			document.getElementById("exift").value = tags;
+			document.getElementById("exif").addEventListener("click", showExif);
+
 			document.getElementById("pngActions").style.display = "block";
 			document.getElementById("pngCompress").addEventListener("click", compressPNG);
 			document.getElementById("pngResize").addEventListener("click", resizePNG);
@@ -596,7 +606,12 @@ async function processValues() {
 		}
 		else if (file_ext == "jpg" || file_ext == "jpeg") {
 			const v2c = await document.getElementById("main_file").files[0];
-			document.querySelector("pre").innerHTML = `<img src="${URL.createObjectURL(v2c)}"><div id="crop"><div id="overlayc"></div><div id="rsz"></div></div>`;
+			document.querySelector("pre").innerHTML = `<img src="${URL.createObjectURL(v2c)}"><div id="crop"><div id="overlayc"></div><div id="rsz"></div></div><button id="exif"><i class="fas fa-info"></i></button>`;
+			
+			const tags = JSON.stringify(await ExifReader.load(await document.getElementById("main_file").files[0]), null, 8);
+			document.getElementById("exift").value = tags;
+			document.getElementById("exif").addEventListener("click", showExif);
+
 			document.getElementById("jpegActions").style.display = "block";
 
 			document.getElementById("jpgResize").addEventListener("click", resizeJPG);
@@ -631,7 +646,12 @@ async function processValues() {
 		}
 		else if (file_ext == "webp") {
 			const v2c = await document.getElementById("main_file").files[0];
-			document.querySelector("pre").innerHTML = `<img src="${URL.createObjectURL(v2c)}"><div id="crop"><div id="overlayc"></div><div id="rsz"></div></div>`;
+			document.querySelector("pre").innerHTML = `<img src="${URL.createObjectURL(v2c)}"><div id="crop"><div id="overlayc"></div><div id="rsz"></div></div><button id="exif"><i class="fas fa-info"></i></button>`;
+			
+			const tags = JSON.stringify(await ExifReader.load(await document.getElementById("main_file").files[0]), null, 8);
+			document.getElementById("exift").value = tags;
+			document.getElementById("exif").addEventListener("click", showExif);
+
 			document.getElementById("webpActions").style.display = "block";
 
 			document.getElementById("webpResize").addEventListener("click", resizeWEBP);
