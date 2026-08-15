@@ -14,7 +14,7 @@
 			<label for="main_file">
 				<span>
 					<span>Drag & Drop or Click Here</span>
-					<span>supports URLs, JSON, PNG, JPEG, WEBp, MP4, MKV, MOV</span>
+					<span>supports URLs, JSON, PNG, JPEG, WEBp</span>
 				</span>
 			</label>
 			<input type="file" id="main_file">
@@ -60,6 +60,11 @@
 				<button id="webpResize">Resize<i class="fas fa-expand sm"></i></button>
 				<button id="webpCompress">Compress<i class="fas fa-compress-arrows-alt sm"></i></button>
 				<button id="webpConvert">Convert<i class="fas fa-chevron-right sm"></i></button>
+				<button><i class="fas fa-upload"></i></button>
+			</div>
+			<div class="actions" id="mp4Actions">
+				<button id="mp4Compress">Compress<i class="fas fa-compress-arrows-alt sm"></i></button>
+				<button id="mp4Convert">Convert<i class="fas fa-chevron-right sm"></i></button>
 				<button><i class="fas fa-upload"></i></button>
 			</div>
 		</main>
@@ -141,6 +146,7 @@
 		</div>
 
 		<div id="overlay"></div>
+
 
 		<script type="module">
 			import ExifReader from "https://cdn.jsdelivr.net/npm/exifreader@4.42.0/+esm";

@@ -144,7 +144,8 @@ pre {
 .actions {
 	height: 65px;
 	width: calc(100% - 30px);
-	border: 1px dashed rgba(255, 255, 255, 0.5);
+	border: 1px dashed rgba(255, 255, 255, 0.3);
+	text-align: center;
 	padding: 10px;
 	border-radius: 5px;
 }
@@ -207,6 +208,10 @@ button:hover {
 
 #webpActions button:not(#webpActions button:nth-last-of-type(1)) {
 	width: calc(25% - 19px);
+}
+
+#mp4Actions button:not(#mp4Actions button:nth-last-of-type(1)) {
+	width: calc(50% - 34px);
 }
 
 #qr {
@@ -484,4 +489,12 @@ pre img {
 	position: absolute;
 	top: 15.5px;
 	right: 15px;
+}
+
+pre video {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
 }

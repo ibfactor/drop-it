@@ -1,3 +1,6 @@
+
+
+
 function showExif() {
 	document.getElementById("exif_data").classList.toggle("visible");
 }
@@ -683,6 +686,11 @@ async function processValues() {
 				document.querySelector("#webpConversion").classList.add("visible");
 			});
 
+		}
+		else if (file_ext == "mp4") {
+			const v2c = await document.getElementById("main_file").files[0];
+			document.querySelector("pre").innerHTML = `<video src="${URL.createObjectURL(v2c)}" controls></video>`;
+			document.getElementById("mp4Actions").style.display = "block";
 		}
 		else {
 			const v2c = await document.getElementById("main_file").files[0].text();
