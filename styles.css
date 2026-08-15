@@ -9,7 +9,7 @@ h1 {
 }
 
 *:not(h1, h2, h3, h4, h5, h1 span) {
-	font-size: max(min(2cqw, 18px) , 10px);
+	font-size: max(min(2cqw, 17px) , 10px);
 }
 
 body {

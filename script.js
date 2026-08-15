@@ -1,8 +1,8 @@
 async function shareFile() {
 	const client = new WebTorrent();
 
-	client.on('error', err => {
-        console.error('ERROR: ' + err.message);
+	client.on("error", err => {
+        console.error("ERROR: " + err.message);
     });
 
 	client.seed(await document.getElementById("main_file").files[0], async torrent => {
@@ -745,6 +745,20 @@ function downloadFile(fname, furl) {
 	link.href = furl;
 	link.click();
 }
+
+
+window.addEventListener("paste", (event) => {
+    const files = event.clipboardData.files;
+
+    if (files.length > 0) {
+        const pastedFile = files[0];
+        
+        const fileInput = document.querySelector("input[type='file']");
+        if (fileInput) {
+            fileInput.files = files;
+        }
+    }
+});
 
 document.getElementById("main_file").addEventListener("change", processFile);
 document.querySelector("textarea").addEventListener("paste", processFile);
