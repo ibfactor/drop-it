@@ -48,6 +48,13 @@
 				<button id="pngConvert">Convert<i class="fas fa-chevron-right sm"></i></button>
 				<button><i class="fas fa-upload"></i></button>
 			</div>
+			<div class="actions" id="jpegActions">
+				<button id="jpgCrop">Crop<i class="fas fa-crop sm"></i></button>
+				<button id="jpgResize">Resize<i class="fas fa-expand sm"></i></button>
+				<button id="jpgCompress">Compress<i class="fas fa-compress-arrows-alt sm"></i></button>
+				<button id="jpgConvert">Convert<i class="fas fa-chevron-right sm"></i></button>
+				<button><i class="fas fa-upload"></i></button>
+			</div>
 		</main>
 
 
@@ -83,6 +90,15 @@
 			<h5>Resize Image</h5>
 			<input type="number" placeholder="width" id="imgwidth"> &times; <input id="imgheight" type="number" placeholder="height">
 			<input type="checkbox" id="preserve_ar" checked> <label for="preserve_ar">Preserve Aspect Ratio</label>
+			<a href="#" class="close">&times;</a>
+			<canvas>
+			</canvas>
+		</div>
+
+		<div id="jpg_resize">
+			<h5>Resize Image</h5>
+			<input type="number" placeholder="width" id="imgwidth2"> &times; <input id="imgheight2" type="number" placeholder="height">
+			<input type="checkbox" id="preserve_ar2" checked> <label for="preserve_ar">Preserve Aspect Ratio</label>
 			<a href="#" class="close">&times;</a>
 			<canvas>
 			</canvas>

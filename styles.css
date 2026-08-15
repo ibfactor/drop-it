@@ -201,6 +201,10 @@ button:hover {
 	width: calc(25% - 19px);
 }
 
+#jpegActions button:not(#jpegActions button:nth-last-of-type(1)) {
+	width: calc(25% - 19px);
+}
+
 #qr {
 	position: fixed;
 	background-color: #1a1a1a;
@@ -358,7 +362,7 @@ pre img {
 }
 
 
-#png_resize {
+#png_resize, #jpg_resize {
 	position: fixed;
 	background-color: #1a1a1a;
 	border-radius: 10px;
@@ -371,27 +375,27 @@ pre img {
 	opacity: 0;
 	transition: 0.25s all;
 }
-#png_resize.visible {
+#png_resize.visible, #jpg_resize.visible {
 	top: 50%;
 	opacity: 1;
 	z-index: 11;
 }
-#png_resize.visible ~ #overlay {
+#png_resize.visible ~ #overlay, #jpg_resize.visible ~ #overlay {
 	top: 0;
 	background-color: rgba(0, 0, 0, 0.5);
 	backdrop-filter: blur(3px);
 }
-#png_resize a {
+#png_resize a, #jpg_resize a {
 	text-decoration: none;
 	font-size: 25px;
 	position: absolute;
 	top: 15.5px;
 	right: 15px;
 }
-#png_resize input:not(input[type="checkbox"]) {
+#png_resize input:not(input[type="checkbox"]), #jpg_resize input:not(input[type="checkbox"]) {
 	width: calc(50% - 23px);
 }
-#png_resize canvas {
+#png_resize canvas, #jpg_resize canvas {
 	margin-top: 10px;
 	width: 100%;
 	height: 100%;
