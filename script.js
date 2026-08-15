@@ -1,3 +1,85 @@
+async function convertWEBP() {
+	const img = new Image();
+	img.src = document.querySelector("img").src;
+	await img.decode();
+
+	document.querySelector("canvas").width = img.naturalWidth;
+	document.querySelector("canvas").height = img.naturalHeight;
+
+	const ctx = document.querySelector("canvas").getContext("2d");
+	ctx.drawImage(img, 0, 0);
+
+	if (document.getElementById("WEBPConvertTo").value == "PNG") {
+		const blob = await new Promise(resolve =>
+			document.querySelector("canvas").toBlob(resolve, "image/png")
+		);
+		const url = URL.createObjectURL(blob);
+		downloadFile("output.png", url);
+	}
+	else {
+		const blob = await new Promise(resolve =>
+			document.querySelector("canvas").toBlob(resolve, "image/jpeg", 1.0)
+		);
+		const url = URL.createObjectURL(blob);
+		downloadFile("output.jpg", url);
+	}
+}
+async function compressWEBP() {
+	const img = new Image();
+	img.src = document.querySelector("img").src;
+	await img.decode();
+
+	document.querySelector("canvas").width = img.naturalWidth;
+	document.querySelector("canvas").height = img.naturalHeight;
+
+	const ctx = document.querySelector("canvas").getContext("2d");
+	ctx.drawImage(img, 0, 0);
+	const imageData = ctx.getImageData(0, 0, document.querySelector("canvas").width, document.querySelector("canvas").height);
+
+	const blob = await new Promise(resolve => document.querySelector("canvas").toBlob(resolve, "image/webp", 0.82));
+	const url = URL.createObjectURL(blob);
+	downloadFile("output.webp", url);
+}
+async function resizeWEBP() {
+	document.getElementById("webp_resize").classList.add("visible");
+	document.getElementById("imgwidth3").outerHTML = document.getElementById("imgwidth3").outerHTML;
+	document.getElementById("imgheight3").outerHTML = document.getElementById("imgheight3").outerHTML;
+
+	const img = new Image();
+	img.src = document.querySelector("img").src;
+	await img.decode();
+
+	var canvas = document.querySelectorAll("canvas")[3];
+	var ctx = canvas.getContext("2d");
+
+	document.getElementById("imgwidth3").value = img.width;
+	document.getElementById("imgheight3").value = img.height;
+
+	canvas.width = document.getElementById("imgwidth3").value;
+	canvas.height = document.getElementById("imgheight3").value;
+	ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+	document.getElementById("imgwidth3").addEventListener("keyup", () => {
+		if (document.getElementById("preserve_ar3").checked) {
+			document.getElementById("imgheight3").value = (img.height / img.width) * document.getElementById("imgwidth3").value;
+		}
+		canvas.width = document.getElementById("imgwidth3").value;
+		canvas.height = document.getElementById("imgheight3").value;
+		var ctx = canvas.getContext("2d");
+		ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+	});
+	document.getElementById("imgheight3").addEventListener("keyup", () => {
+		if (document.getElementById("preserve_ar3").checked) {
+			document.getElementById("imgwidth3").value = (img.width / img.height) * document.getElementById("imgheight3").value;
+		}
+		canvas.width = document.getElementById("imgwidth3").value;
+		canvas.height = document.getElementById("imgheight3").value;
+		var ctx = canvas.getContext("2d");
+		ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+	});
+}
+
+
 async function resizeJPG() {
 	document.getElementById("jpg_resize").classList.add("visible");
 	document.getElementById("imgwidth2").outerHTML = document.getElementById("imgwidth2").outerHTML;
@@ -496,7 +578,7 @@ async function processValues() {
 
 				const rect = document.querySelector("#rsz").getBoundingClientRect();
 			    const onResizeHandle =
-			        e.clientX >= rect.right - 5 &&
+			        e.clientX >= rect.right - 10 &&
 			        e.clientY >= rect.bottom - 10;
 
 			    if (onResizeHandle) return;
@@ -517,14 +599,14 @@ async function processValues() {
 			document.querySelector("pre").innerHTML = `<img src="${URL.createObjectURL(v2c)}"><div id="crop"><div id="overlayc"></div><div id="rsz"></div></div>`;
 			document.getElementById("jpegActions").style.display = "block";
 
-			document.getElementById("jpgResize").addEventListener("click", resizePNG);
+			document.getElementById("jpgResize").addEventListener("click", resizeJPG);
 			document.getElementById("jpgCompress").addEventListener("click", compressJPG);
 		
 			document.querySelector("#rsz").addEventListener("mousedown", function(e) {
 
 				const rect = document.querySelector("#rsz").getBoundingClientRect();
 			    const onResizeHandle =
-			        e.clientX >= rect.right - 5 &&
+			        e.clientX >= rect.right - 10 &&
 			        e.clientY >= rect.bottom - 10;
 
 			    if (onResizeHandle) return;
@@ -544,6 +626,41 @@ async function processValues() {
 			document.getElementById("jpgConvert2").addEventListener("click", convertJPG);
 			document.getElementById("jpgConvert").addEventListener("click", () => {
 				document.querySelector("#jpgConversion").classList.add("visible");
+			});
+
+		}
+		else if (file_ext == "webp") {
+			const v2c = await document.getElementById("main_file").files[0];
+			document.querySelector("pre").innerHTML = `<img src="${URL.createObjectURL(v2c)}"><div id="crop"><div id="overlayc"></div><div id="rsz"></div></div>`;
+			document.getElementById("webpActions").style.display = "block";
+
+			document.getElementById("webpResize").addEventListener("click", resizeWEBP);
+			document.getElementById("webpCompress").addEventListener("click", compressWEBP);
+		
+			document.querySelector("#rsz").addEventListener("mousedown", function(e) {
+
+				const rect = document.querySelector("#rsz").getBoundingClientRect();
+			    const onResizeHandle =
+			        e.clientX >= rect.right - 10 &&
+			        e.clientY >= rect.bottom - 10;
+
+			    if (onResizeHandle) return;
+
+			    document.onmousemove = function(e) {
+			        document.querySelector("#rsz").style.left = (e.clientX - 30 - (document.querySelector("#rsz").offsetWidth / 2)) + "px";
+			        document.querySelector("#rsz").style.top = (e.clientY - 30 - (document.querySelector("#rsz").offsetHeight / 2)) + "px";
+			    };
+			});
+
+			document.addEventListener("mouseup", function() {
+			    document.onmousemove = null;
+			});
+
+			document.getElementById("webpCrop").addEventListener("click", cropImg);
+
+			document.getElementById("webpConvert2").addEventListener("click", convertWEBP);
+			document.getElementById("webpConvert").addEventListener("click", () => {
+				document.querySelector("#webpConversion").classList.add("visible");
 			});
 
 		}
