@@ -31,7 +31,7 @@
 This is a completely static website.\
 You can clone this repository into your website folder and access the index.html file.\
 Alternatively, you can fork this repo and connect it to Cloudflare Pages or Netlify.\
-All dependencies are automatically fetched from CDNs.\
+All dependencies are automatically fetched from CDNs.
 ### External Dependencies
   - @eemeli/yaml (JSON -> YAML Conversion)
   - @nashwaan/xml-js (JSON -> XML Conversion)
