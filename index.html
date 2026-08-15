@@ -147,17 +147,16 @@
 
 		<div id="overlay"></div>
 
-
+		<script src="https://cdn.jsdelivr.net/npm/webtorrent@latest/webtorrent.min.js"></script>
 		<script type="module">
 			import ExifReader from "https://cdn.jsdelivr.net/npm/exifreader@4.42.0/+esm";
+			import { stringify } from "https://cdn.jsdelivr.net/npm/yaml@2.9.0/browser/index.js";
+		    
+		    window.stringify = stringify;
 			window.ExifReader = ExifReader;
 		</script>
 		<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 		<script src="https://unpkg.com/@upng/upng-js/dist/UPNG.umd.js"></script>
-		<script type="module">
-		    import { stringify } from "https://cdn.jsdelivr.net/npm/yaml@2.9.0/browser/index.js";
-		    window.stringify = stringify;
-		</script>
 		<script src="https://cdn.jsdelivr.net/npm/xml-js@1.6.11/dist/xml-js.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 		<script src="/script.js"></script>

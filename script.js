@@ -1,5 +1,30 @@
+async function shareFile() {
+	const client = new WebTorrent();
 
+	client.on('error', err => {
+        console.error('ERROR: ' + err.message);
+    });
 
+	client.seed(await document.getElementById("main_file").files[0], async torrent => {
+	    const url = torrent.magnetURI.replace("magnet:", "https://" + location.href.split("//")[1].split("/")[0] + "/dl.html");
+	
+		document.getElementById("qr").classList.add("visible");
+
+	    const canvas = document.querySelector("canvas");
+	    await QRCode.toCanvas(canvas, url, {
+	        width: 400,
+	        margin: 2
+	    });
+
+	    document.querySelector("#qr a").style.display = "none";
+
+	    const el = document.createElement("p");
+	    el.innerHTML = "Scan this QR code on your other device.<br>Keep this page open while transferring the file.";
+	    el.style.textAlign = "center";
+	    document.getElementById("qr").appendChild(el);
+
+	});
+}
 
 function showExif() {
 	document.getElementById("exif_data").classList.toggle("visible");
